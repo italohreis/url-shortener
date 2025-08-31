@@ -17,14 +17,14 @@ import java.util.UUID;
 @Table(name = "url_shortener")
 public class UrlShortener {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String shortUrl;
 
-    @Column(nullable = false)
-    private String originalUrl;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String longUrl;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface UrlShortenerRepository extends JpaRepository<UrlShortener, UUID> {
 
-    Optional<UrlShortener> findByShortCode(String shortCode);
+    Optional<UrlShortener> findByShortUrl(String shortCode);
 
     Optional<UrlShortener> findByLongUrl(String longUrl);
 }

@@ -30,17 +30,23 @@ public class UrlShortenerService {
         }
 
         UrlShortener newUrl = new UrlShortener();
-        newUrl.setOriginalUrl(longUrl);
+        newUrl.setLongUrl(longUrl);
         newUrl.setCreatedAt(LocalDateTime.now());
 
         UrlShortener savedUrl = repository.save(newUrl);
-        String shortCode = encodeBase62(savedUrl.getId().getMostSignificantBits() & Long.MAX_VALUE);
+        String shortCode = encodeBase62(savedUrl.getId());
         String shortUrl = this.baseUrl + "/" + shortCode;
 
         savedUrl.setShortUrl(shortUrl);
         repository.save(savedUrl);
 
         return new ShortenUrlResponse(shortUrl);
+    }
+
+    public String getLongUrlByShortUrl(String shortUrl) {
+        UrlShortener urlShortener = repository.findByShortUrl(shortUrl)
+                .orElseThrow(() -> new IllegalArgumentException("Short URL not found"));
+        return urlShortener.getLongUrl();
     }
 
     public String encodeBase62(long num) {
