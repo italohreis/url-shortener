@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
@@ -18,8 +19,13 @@ public class RedirectController {
     @GetMapping("/{shortUrl}")
     public ResponseEntity<Void> redirect(@PathVariable String shortUrl) {
         String longUrl = urlShortenerService.getLongUrlByShortUrl(shortUrl);
+
+        URI redirectUri = UriComponentsBuilder.fromUriString(longUrl)
+                .build()
+                .toUri();
+
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(longUrl))
+                .location(redirectUri)
                 .build();
     }
 }

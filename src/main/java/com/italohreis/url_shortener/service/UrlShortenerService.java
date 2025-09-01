@@ -1,6 +1,7 @@
 package com.italohreis.url_shortener.service;
 
 import com.italohreis.url_shortener.dto.ShortenUrlResponse;
+import com.italohreis.url_shortener.exception.UrlNotFoundException;
 import com.italohreis.url_shortener.model.UrlShortener;
 import com.italohreis.url_shortener.repository.UrlShortenerRepository;
 import jakarta.transaction.Transactional;
@@ -35,17 +36,18 @@ public class UrlShortenerService {
 
         UrlShortener savedUrl = repository.save(newUrl);
         String shortCode = encodeBase62(savedUrl.getId());
-        String shortUrl = this.baseUrl + "/" + shortCode;
 
-        savedUrl.setShortUrl(shortUrl);
+        savedUrl.setShortUrl(shortCode);
         repository.save(savedUrl);
+
+        String shortUrl = this.baseUrl + "/" + shortCode;
 
         return new ShortenUrlResponse(shortUrl);
     }
 
     public String getLongUrlByShortUrl(String shortUrl) {
         UrlShortener urlShortener = repository.findByShortUrl(shortUrl)
-                .orElseThrow(() -> new IllegalArgumentException("Short URL not found"));
+                .orElseThrow(() -> new UrlNotFoundException("Short URL not found: " + shortUrl));
         return urlShortener.getLongUrl();
     }
 
