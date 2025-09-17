@@ -6,6 +6,7 @@ import com.italohreis.url_shortener.model.UrlShortener;
 import com.italohreis.url_shortener.repository.UrlShortenerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,6 +46,7 @@ public class UrlShortenerService {
         return new ShortenUrlResponse(shortUrl);
     }
 
+    @Cacheable(value = "urls", key = "#shortUrl")
     public String getLongUrlByShortUrl(String shortUrl) {
         UrlShortener urlShortener = repository.findByShortUrl(shortUrl)
                 .orElseThrow(() -> new UrlNotFoundException("Short URL not found: " + shortUrl));
