@@ -53,6 +53,11 @@ public class UrlShortenerService {
         return urlShortener.getLongUrl();
     }
 
+    public UrlShortener getUrlEntityByShortUrl(String shortUrl) {
+        return repository.findByShortUrl(shortUrl)
+                .orElseThrow(() -> new UrlNotFoundException("Short URL not found: " + shortUrl));
+    }
+
     public String encodeBase62(long num) {
         StringBuilder sb = new StringBuilder();
         while (num > 0) {
