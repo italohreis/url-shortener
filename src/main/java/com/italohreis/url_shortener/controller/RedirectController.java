@@ -1,5 +1,6 @@
 package com.italohreis.url_shortener.controller;
 
+import com.italohreis.url_shortener.controller.docs.RedirectControllerDocs;
 import com.italohreis.url_shortener.model.UrlShortener;
 import com.italohreis.url_shortener.service.AnalyticsService;
 import com.italohreis.url_shortener.service.UrlShortenerService;
@@ -16,7 +17,7 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-public class RedirectController {
+public class RedirectController implements RedirectControllerDocs {
     private final UrlShortenerService urlShortenerService;
     private final AnalyticsService analyticsService;
 

@@ -1,5 +1,6 @@
 package com.italohreis.url_shortener.controller;
 
+import com.italohreis.url_shortener.controller.docs.UrlShortenerControllerDocs;
 import com.italohreis.url_shortener.dto.AnalyticsResponseDto;
 import com.italohreis.url_shortener.dto.ShortenUrlRequest;
 import com.italohreis.url_shortener.dto.ShortenUrlResponse;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/url")
 @RequiredArgsConstructor
-public class UrlShortenerController {
+public class UrlShortenerController implements UrlShortenerControllerDocs {
     private final UrlShortenerService urlShortenerService;
     private final AnalyticsService analyticsService;
 
